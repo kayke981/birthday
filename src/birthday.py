@@ -1,5 +1,6 @@
 from typing import (Optional)
 from datetime import datetime
+from src.errors.error import InvalidDate
 
 class Birthday:
 	def __init__(self, send_sms: Optional[bool] = True, send_email: Optional[bool] = False, message: Optional[str] = 'Happy Birthday! <3', *, year: int, day: int, month: int, your_name: str):
@@ -10,7 +11,7 @@ class Birthday:
 		self.day = day
 		self.month = month
 		self.your_name = your_name
-	
+
 	def calc(self):
 		d1 = datetime(self.year,self.month,self.day,self.hour)
 		d2 = datetime.now()
@@ -29,4 +30,9 @@ class Birthday:
 		self.hours = hours
 		self.minutes = minutes
 		self.seconds = seconds
-	
+		
+	def check(self):
+		date = self.calc()
+		if '-' in date:
+			raise InvalidDate('The date has already expired')
+		return date
